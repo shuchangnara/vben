@@ -90,6 +90,108 @@ const dashboardMenus = [
   },
 ];
 
+// 创建完整的演示菜单（包含所有角色可见的菜单项）
+const createFullDemosMenus = () => {
+  const roleWithMenus = {
+    admin: {
+      component: '/demos/access/admin-visible',
+      meta: {
+        icon: 'mdi:button-cursor',
+        title: 'demos.access.adminVisible',
+      },
+      name: 'AccessAdminVisibleDemo',
+      path: '/demos/access/admin-visible',
+      menuCode: 'DEMOS_ACCESS_ADMIN_VISIBLE',
+    },
+    super: {
+      component: '/demos/access/super-visible',
+      meta: {
+        icon: 'mdi:button-cursor',
+        title: 'demos.access.superVisible',
+      },
+      name: 'AccessSuperVisibleDemo',
+      path: '/demos/access/super-visible',
+      menuCode: 'DEMOS_ACCESS_SUPER_VISIBLE',
+    },
+    user: {
+      component: '/demos/access/user-visible',
+      meta: {
+        icon: 'mdi:button-cursor',
+        title: 'demos.access.userVisible',
+      },
+      name: 'AccessUserVisibleDemo',
+      path: '/demos/access/user-visible',
+      menuCode: 'DEMOS_ACCESS_USER_VISIBLE',
+    },
+  };
+
+  return [
+    {
+      meta: {
+        icon: 'ic:baseline-view-in-ar',
+        keepAlive: true,
+        order: 1000,
+        title: 'demos.title',
+      },
+      name: 'Demos',
+      path: '/demos',
+      redirect: '/demos/access',
+      menuCode: 'DEMOS_VIEW',
+      children: [
+        {
+          name: 'AccessDemos',
+          path: '/demosaccess',
+          meta: {
+            icon: 'mdi:cloud-key-outline',
+            title: 'demos.access.backendPermissions',
+          },
+          redirect: '/demos/access/page-control',
+          menuCode: 'DEMOS_ACCESS_VIEW',
+          children: [
+            {
+              name: 'AccessPageControlDemo',
+              path: '/demos/access/page-control',
+              component: '/demos/access/index',
+              menuCode: 'DEMOS_ACCESS_PAGE_CONTROL',
+              meta: {
+                icon: 'mdi:page-previous-outline',
+                title: 'demos.access.pageAccess',
+              },
+            },
+            {
+              name: 'AccessButtonControlDemo',
+              path: '/demos/access/button-control',
+              component: '/demos/access/button-control',
+              menuCode: 'DEMOS_ACCESS_BUTTON_CONTROL',
+              meta: {
+                icon: 'mdi:button-cursor',
+                title: 'demos.access.buttonControl',
+              },
+            },
+            {
+              name: 'AccessMenuVisible403Demo',
+              path: '/demos/access/menu-visible-403',
+              component: '/demos/access/menu-visible-403',
+              menuCode: 'DEMOS_ACCESS_MENU_VISIBLE_403',
+              meta: {
+                authority: ['no-body'],
+                icon: 'mdi:button-cursor',
+                menuVisibleWithForbidden: true,
+                title: 'demos.access.menuVisible403',
+              },
+            },
+            // 包含所有角色的菜单项
+            roleWithMenus.admin,
+            roleWithMenus.super,
+            roleWithMenus.user,
+          ],
+        },
+      ],
+    },
+  ];
+};
+
+// 保留原有的createDemosMenus函数用于兼容性
 const createDemosMenus = (role: 'admin' | 'super' | 'user') => {
   const roleWithMenus = {
     admin: {
@@ -187,17 +289,55 @@ const createDemosMenus = (role: 'admin' | 'super' | 'user') => {
   ];
 };
 
+// 创建完整的菜单数据（包含所有可能的菜单项）
+const fullMenus = [...dashboardMenus, ...createFullDemosMenus()];
+
 export const MOCK_MENUS = [
   {
-    menus: [...dashboardMenus, ...createDemosMenus('super')],
+    menus: fullMenus, // 返回完整菜单数据
+    permissions: [
+      'DASHBOARD_VIEW',
+      'DASHBOARD_ANALYTICS_VIEW',
+      'DASHBOARD_WORKSPACE_VIEW',
+      'DEMOS_VIEW',
+      'DEMOS_ACCESS_VIEW',
+      'DEMOS_ACCESS_PAGE_CONTROL',
+      'DEMOS_ACCESS_BUTTON_CONTROL',
+      'DEMOS_ACCESS_MENU_VISIBLE_403',
+      'DEMOS_ACCESS_ADMIN_VISIBLE',
+      'DEMOS_ACCESS_SUPER_VISIBLE',
+      'DEMOS_ACCESS_USER_VISIBLE',
+    ], // super用户拥有所有权限
     username: 'vben',
   },
   {
-    menus: [...dashboardMenus, ...createDemosMenus('admin')],
+    menus: fullMenus, // 返回完整菜单数据
+    permissions: [
+      'DASHBOARD_VIEW',
+      'DASHBOARD_ANALYTICS_VIEW',
+      'DASHBOARD_WORKSPACE_VIEW',
+      'DEMOS_VIEW',
+      'DEMOS_ACCESS_VIEW',
+      'DEMOS_ACCESS_PAGE_CONTROL',
+      'DEMOS_ACCESS_BUTTON_CONTROL',
+      'DEMOS_ACCESS_MENU_VISIBLE_403',
+      'DEMOS_ACCESS_ADMIN_VISIBLE',
+    ], // admin用户拥有admin及以下权限
     username: 'admin',
   },
   {
-    menus: [...dashboardMenus, ...createDemosMenus('user')],
+    menus: fullMenus, // 返回完整菜单数据
+    permissions: [
+      'DASHBOARD_VIEW',
+      'DASHBOARD_ANALYTICS_VIEW',
+      'DASHBOARD_WORKSPACE_VIEW',
+      'DEMOS_VIEW',
+      'DEMOS_ACCESS_VIEW',
+      'DEMOS_ACCESS_PAGE_CONTROL',
+      'DEMOS_ACCESS_BUTTON_CONTROL',
+      'DEMOS_ACCESS_MENU_VISIBLE_403',
+      'DEMOS_ACCESS_USER_VISIBLE',
+    ], // user用户只拥有user权限
     username: 'jack',
   },
 ];

@@ -9,7 +9,20 @@ export default eventHandler(async (event) => {
     return unAuthorizedResponse(event);
   }
 
-  const menus =
-    MOCK_MENUS.find((item) => item.username === userinfo.username)?.menus ?? [];
-  return useResponseSuccess(menus);
+  const userMenus = MOCK_MENUS.find(
+    (item) => item.username === userinfo.username,
+  );
+
+  if (!userMenus) {
+    return useResponseSuccess({
+      menus: [],
+      permissions: [],
+    });
+  }
+
+  // 返回完整菜单数据和用户拥有的权限代码
+  return useResponseSuccess({
+    menus: userMenus.menus,
+    permissions: userMenus.permissions || [],
+  });
 });

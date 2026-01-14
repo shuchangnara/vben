@@ -25,8 +25,17 @@ async function generateAccessible(
   const { router } = options;
 
   options.routes = cloneDeep(options.routes);
+
+  // 获取权限代码而不是角色
+  const { useAccessStore } = await import('@vben/stores');
+  const accessStore = useAccessStore();
+  const permissions = accessStore.accessCodes || [];
+
   // 生成路由
-  const accessibleRoutes = await generateRoutes(mode, options);
+  const accessibleRoutes = await generateRoutes(mode, {
+    ...options,
+    roles: permissions, // 使用权限代码替代角色
+  });
 
   const root = router.getRoutes().find((item) => item.path === '/');
 

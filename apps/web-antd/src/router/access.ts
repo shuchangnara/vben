@@ -21,8 +21,6 @@ async function generateAccess(options: GenerateMenuAndRoutesOptions) {
     BasicLayout,
     IFrameView,
   };
-  debugger;
-  console.log(preferences.app);
 
   return await generateAccessible(preferences.app.accessMode, {
     ...options,
@@ -31,7 +29,16 @@ async function generateAccess(options: GenerateMenuAndRoutesOptions) {
         content: `${$t('common.loadingMenu')}...`,
         duration: 1.5,
       });
-      return await getAllMenusApi();
+      const response = await getAllMenusApi();
+
+      // 保存用户权限代码到store
+      if (response.permissions) {
+        const { useAccessStore } = await import('@vben/stores');
+        const accessStore = useAccessStore();
+        accessStore.setAccessCodes(response.permissions);
+      }
+
+      return response.menus;
     },
     // 可以指定没有权限跳转403页面
     forbiddenComponent,
