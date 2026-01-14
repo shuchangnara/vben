@@ -35,8 +35,10 @@ export default defineEventHandler(async (event) => {
 
   setRefreshTokenCookie(event, refreshToken);
 
+  // 返回完整的用户信息（不包含密码）和 accessToken
+  const { password: _, ...userInfo } = findUser;
   return useResponseSuccess({
-    ...findUser,
+    ...userInfo,
     accessToken,
   });
 });

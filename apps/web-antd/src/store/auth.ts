@@ -10,7 +10,7 @@ import { resetAllStores, useAccessStore, useUserStore } from '@vben/stores';
 import { notification } from 'ant-design-vue';
 import { defineStore } from 'pinia';
 
-import { getAccessCodesApi, getUserInfoApi, loginApi, logoutApi } from '#/api';
+import { getAccessCodesApi, loginApi, logoutApi } from '#/api';
 import { $t } from '#/locales';
 
 export const useAuthStore = defineStore('auth', () => {
@@ -33,23 +33,22 @@ export const useAuthStore = defineStore('auth', () => {
     let userInfo: null | UserInfo = null;
     try {
       loginLoading.value = true;
-      debugger;
-      const { accessToken } = await loginApi(params);
+      const loginResult = await loginApi(params);
 
       // 如果成功获取到 accessToken
-      if (accessToken) {
-        accessStore.setAccessToken(accessToken);
-        debugger;
+      if (loginResult.accessToken) {
+        accessStore.setAccessToken(loginResult.accessToken);
 
-        // 获取用户信息并存储到 accessStore 中
-        const [fetchUserInfoResult, accessCodes] = await Promise.all([
-          fetchUserInfo(),
-          getAccessCodesApi(),
-        ]);
+        // 从登录响应中获取用户信息（不包含密码）
+        const { accessToken: _, ...userInfoFromLogin } = loginResult;
+        userInfo = userInfoFromLogin as UserInfo;
 
-        userInfo = fetchUserInfoResult;
-
+        // 存储用户信息到 localStorage
+        localStorage.setItem('user_info', JSON.stringify(userInfo));
         userStore.setUserInfo(userInfo);
+
+        // 获取权限代码
+        const accessCodes = await getAccessCodesApi();
         accessStore.setAccessCodes(accessCodes);
 
         if (accessStore.loginExpired) {
@@ -85,6 +84,10 @@ export const useAuthStore = defineStore('auth', () => {
     } catch {
       // 不做任何处理
     }
+
+    // 清除 localStorage 中的用户信息
+    localStorage.removeItem('user_info');
+
     resetAllStores();
     accessStore.setLoginExpired(false);
 
@@ -101,8 +104,24 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function fetchUserInfo() {
     let userInfo: null | UserInfo = null;
-    userInfo = await getUserInfoApi();
-    userStore.setUserInfo(userInfo);
+
+    // 从 localStorage 获取用户信息
+    const storedUserInfo = localStorage.getItem('user_info');
+    if (storedUserInfo) {
+      userInfo = JSON.parse(storedUserInfo) as UserInfo;
+      userStore.setUserInfo(userInfo);
+    } else {
+      // 如果 localStorage 中没有用户信息，说明用户未登录或会话已过期
+      // 直接跳转到登录页面
+      await router.replace({
+        path: LOGIN_PATH,
+        query: {
+          redirect: encodeURIComponent(router.currentRoute.value.fullPath),
+        },
+      });
+      throw new Error('用户未登录或会话已过期');
+    }
+
     return userInfo;
   }
 

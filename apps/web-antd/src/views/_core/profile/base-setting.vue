@@ -7,8 +7,6 @@ import { computed, onMounted, ref } from 'vue';
 
 import { ProfileBaseSetting } from '@vben/common-ui';
 
-import { getUserInfoApi } from '#/api';
-
 const profileBaseSettingRef = ref();
 
 const MOCK_ROLES_OPTIONS: BasicOption[] = [
@@ -56,8 +54,22 @@ const formSchema = computed((): VbenFormSchema[] => {
 });
 
 onMounted(async () => {
-  const data = await getUserInfoApi();
-  profileBaseSettingRef.value.getFormApi().setValues(data);
+  // 从 localStorage 获取用户信息，避免调用 API
+  const storedUserInfo = localStorage.getItem('user_info');
+  if (storedUserInfo) {
+    const data = JSON.parse(storedUserInfo);
+    profileBaseSettingRef.value.getFormApi().setValues(data);
+  } else {
+    // 如果 localStorage 中没有用户信息，说明用户未登录或会话已过期
+    // 直接跳转到登录页面
+    const router = useRouter();
+    await router.replace({
+      path: '/login',
+      query: {
+        redirect: encodeURIComponent(router.currentRoute.value.fullPath),
+      },
+    });
+  }
 });
 </script>
 <template>
