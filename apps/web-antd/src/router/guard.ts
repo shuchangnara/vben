@@ -101,6 +101,9 @@ function setupAccessGuard(router: Router) {
       router,
       // 则会在菜单中显示，但是访问会被重定向到403
       routes: accessRoutes,
+      // 传递 global 和 appId 参数
+      global: 'true', // 示例值，实际应从用户信息或其他地方获取
+      appId: 'web-antd', // 示例值，实际应从应用配置获取
     });
 
     // 保存菜单信息和路由信息

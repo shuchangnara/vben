@@ -14,7 +14,9 @@ import { $t } from '#/locales';
 
 const forbiddenComponent = () => import('#/views/_core/fallback/forbidden.vue');
 
-async function generateAccess(options: GenerateMenuAndRoutesOptions) {
+async function generateAccess(
+  options: GenerateMenuAndRoutesOptions & { appId?: string; global?: string },
+) {
   const pageMap: ComponentRecordType = import.meta.glob('../views/**/*.vue');
 
   const layoutMap: ComponentRecordType = {
@@ -29,7 +31,7 @@ async function generateAccess(options: GenerateMenuAndRoutesOptions) {
         content: `${$t('common.loadingMenu')}...`,
         duration: 1.5,
       });
-      const response = await getAllMenusApi();
+      const response = await getAllMenusApi(options.global, options.appId);
 
       // 保存用户权限代码到store
       if (response.permissions) {

@@ -9,6 +9,11 @@ export default eventHandler(async (event) => {
     return unAuthorizedResponse(event);
   }
 
+  // 获取请求参数
+  const query = getQuery(event);
+  const global = query.global as string;
+  const appId = query.appId as string;
+
   const userMenus = MOCK_MENUS.find(
     (item) => item.username === userinfo.username,
   );
@@ -20,9 +25,11 @@ export default eventHandler(async (event) => {
     });
   }
 
-  // 返回完整菜单数据和用户拥有的权限代码
+  // 返回完整菜单数据和用户拥有的权限代码，同时返回接收到的参数
   return useResponseSuccess({
     menus: userMenus.menus,
     permissions: userMenus.permissions || [],
+    global,
+    appId,
   });
 });
