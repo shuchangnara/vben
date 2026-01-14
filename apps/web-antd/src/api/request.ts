@@ -19,6 +19,18 @@ import { useAuthStore } from '#/store';
 
 import { refreshTokenApi } from './core';
 
+/**
+ * 从cookie中获取指定名称的值
+ */
+function getCookie(name: string): null | string {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) {
+    return parts.pop()?.split(';').shift() || null;
+  }
+  return null;
+}
+
 const { apiURL } = useAppConfig(import.meta.env, import.meta.env.PROD);
 
 function createRequestClient(baseURL: string, options?: RequestClientOptions) {
@@ -67,6 +79,19 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
 
       config.headers.Authorization = formatToken(accessStore.accessToken);
       config.headers['Accept-Language'] = preferences.app.locale;
+
+      // 从cookie中获取globalUserId并设置到请求头
+      const globalUserId = getCookie('globalUserId');
+      if (globalUserId) {
+        config.headers.globaluserid = globalUserId;
+      }
+
+      // 从cookie中获取zuultoken并设置到请求头
+      const zuultoken = getCookie('zuultoken');
+      if (zuultoken) {
+        config.headers.zuultoken = zuultoken;
+      }
+
       return config;
     },
   });

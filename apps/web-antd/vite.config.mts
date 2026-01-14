@@ -9,8 +9,11 @@ export default defineConfig(async () => {
           '/api': {
             changeOrigin: true,
             rewrite: (path) => path.replace(/^\/api/, ''),
-            // mock代理目标地址
+            // 平安测试环境代理
+            // target: 'https://autoheavytruck-sit.pingan.com.cn',
+            // mock代理
             target: 'http://localhost:5320/api',
+
             ws: true,
           },
         },

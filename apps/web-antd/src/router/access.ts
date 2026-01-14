@@ -31,7 +31,7 @@ async function generateAccess(
         content: `${$t('common.loadingMenu')}...`,
         duration: 1.5,
       });
-      const response = await getAllMenusApi(options.global, options.appId);
+      const response = await getAllMenusApi();
 
       // 保存用户权限代码到store
       if (response.permissions) {
