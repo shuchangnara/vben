@@ -35,12 +35,26 @@ async function generateRoutesByFrontend(
  */
 function hasAuthority(route: RouteRecordRaw, access: string[]) {
   const authority = route.meta?.authority;
-  if (!authority) {
+  const permission = route.meta?.permission;
+
+  // 如果没有设置权限控制，则允许访问
+  if (!authority && !permission) {
     return true;
   }
-  const canAccess = access.some((value) => authority.includes(value));
 
-  return canAccess || (!canAccess && menuHasVisibleWithForbidden(route));
+  // 优先使用permission字段进行权限验证
+  if (permission) {
+    const canAccess = access.includes(permission as string);
+    return canAccess || (!canAccess && menuHasVisibleWithForbidden(route));
+  }
+
+  // 如果permission不存在，则使用authority字段进行权限验证
+  if (authority) {
+    const canAccess = access.some((value) => authority.includes(value));
+    return canAccess || (!canAccess && menuHasVisibleWithForbidden(route));
+  }
+
+  return true;
 }
 
 /**

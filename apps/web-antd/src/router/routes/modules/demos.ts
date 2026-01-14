@@ -9,6 +9,7 @@ const routes: RouteRecordRaw[] = [
       keepAlive: true,
       order: 1000,
       title: $t('demos.title'),
+      permission: 'DEMOS_VIEW',
     },
     name: 'Demos',
     path: '/demos',
@@ -16,6 +17,7 @@ const routes: RouteRecordRaw[] = [
       {
         meta: {
           title: $t('demos.antd'),
+          permission: 'DEMOS_ANTD_VIEW',
         },
         name: 'AntDesignDemos',
         path: '/demos/ant-design',

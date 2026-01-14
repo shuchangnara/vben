@@ -65,11 +65,13 @@ const dashboardMenus = [
     name: 'Dashboard',
     path: '/dashboard',
     redirect: '/analytics',
+    menuCode: 'DASHBOARD_VIEW',
     children: [
       {
         name: 'Analytics',
         path: '/analytics',
         component: '/dashboard/analytics/index',
+        menuCode: 'DASHBOARD_ANALYTICS_VIEW',
         meta: {
           affixTab: true,
           title: 'page.dashboard.analytics',
@@ -79,6 +81,7 @@ const dashboardMenus = [
         name: 'Workspace',
         path: '/workspace',
         component: '/dashboard/workspace/index',
+        menuCode: 'DASHBOARD_WORKSPACE_VIEW',
         meta: {
           title: 'page.dashboard.workspace',
         },
@@ -97,6 +100,7 @@ const createDemosMenus = (role: 'admin' | 'super' | 'user') => {
       },
       name: 'AccessAdminVisibleDemo',
       path: '/demos/access/admin-visible',
+      menuCode: 'DEMOS_ACCESS_ADMIN_VISIBLE',
     },
     super: {
       component: '/demos/access/super-visible',
@@ -106,6 +110,7 @@ const createDemosMenus = (role: 'admin' | 'super' | 'user') => {
       },
       name: 'AccessSuperVisibleDemo',
       path: '/demos/access/super-visible',
+      menuCode: 'DEMOS_ACCESS_SUPER_VISIBLE',
     },
     user: {
       component: '/demos/access/user-visible',
@@ -115,6 +120,7 @@ const createDemosMenus = (role: 'admin' | 'super' | 'user') => {
       },
       name: 'AccessUserVisibleDemo',
       path: '/demos/access/user-visible',
+      menuCode: 'DEMOS_ACCESS_USER_VISIBLE',
     },
   };
 
@@ -129,6 +135,7 @@ const createDemosMenus = (role: 'admin' | 'super' | 'user') => {
       name: 'Demos',
       path: '/demos',
       redirect: '/demos/access',
+      menuCode: 'DEMOS_VIEW',
       children: [
         {
           name: 'AccessDemos',
@@ -138,11 +145,13 @@ const createDemosMenus = (role: 'admin' | 'super' | 'user') => {
             title: 'demos.access.backendPermissions',
           },
           redirect: '/demos/access/page-control',
+          menuCode: 'DEMOS_ACCESS_VIEW',
           children: [
             {
               name: 'AccessPageControlDemo',
               path: '/demos/access/page-control',
               component: '/demos/access/index',
+              menuCode: 'DEMOS_ACCESS_PAGE_CONTROL',
               meta: {
                 icon: 'mdi:page-previous-outline',
                 title: 'demos.access.pageAccess',
@@ -152,6 +161,7 @@ const createDemosMenus = (role: 'admin' | 'super' | 'user') => {
               name: 'AccessButtonControlDemo',
               path: '/demos/access/button-control',
               component: '/demos/access/button-control',
+              menuCode: 'DEMOS_ACCESS_BUTTON_CONTROL',
               meta: {
                 icon: 'mdi:button-cursor',
                 title: 'demos.access.buttonControl',
@@ -161,6 +171,7 @@ const createDemosMenus = (role: 'admin' | 'super' | 'user') => {
               name: 'AccessMenuVisible403Demo',
               path: '/demos/access/menu-visible-403',
               component: '/demos/access/menu-visible-403',
+              menuCode: 'DEMOS_ACCESS_MENU_VISIBLE_403',
               meta: {
                 authority: ['no-body'],
                 icon: 'mdi:button-cursor',

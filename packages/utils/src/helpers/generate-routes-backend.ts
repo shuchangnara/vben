@@ -67,6 +67,11 @@ function convertRoutes(
       }
     }
 
+    // 将menuCode转换为permission字段
+    if (node.menuCode && route.meta) {
+      route.meta.permission = node.menuCode;
+    }
+
     return route;
   });
 }
