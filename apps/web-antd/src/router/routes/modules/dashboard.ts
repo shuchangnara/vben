@@ -8,7 +8,7 @@ const routes: RouteRecordRaw[] = [
       icon: 'lucide:layout-dashboard',
       order: -1,
       title: $t('page.dashboard.title'),
-      permission: 'contract-manage',
+      permission: ['contract-manage'],
     },
     name: 'Dashboard',
     path: '/dashboard',
@@ -21,7 +21,7 @@ const routes: RouteRecordRaw[] = [
           affixTab: true,
           icon: 'lucide:area-chart',
           title: $t('page.dashboard.analytics'),
-          permission: 'contract-m-rulelist',
+          permission: ['contract-m-rulelist'],
         },
       },
       {
@@ -31,7 +31,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           icon: 'carbon:workspace',
           title: $t('page.dashboard.workspace'),
-          permission: 'contract-m-variableDatalist',
+          permission: ['contract-m-variableDatalist'],
         },
       },
     ],

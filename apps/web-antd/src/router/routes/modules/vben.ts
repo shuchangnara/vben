@@ -20,7 +20,7 @@ const routes: RouteRecordRaw[] = [
       icon: VBEN_LOGO_URL,
       order: 9998,
       title: $t('demos.vben.title'),
-      permission: 'VBEN_PROJECT_VIEW',
+      permission: ['VBEN_PROJECT_VIEW'],
     },
     name: 'VbenProject',
     path: '/vben-admin',
@@ -33,7 +33,7 @@ const routes: RouteRecordRaw[] = [
           icon: 'lucide:book-open-text',
           link: VBEN_DOC_URL,
           title: $t('demos.vben.document'),
-          permission: 'VBEN_DOCUMENT_VIEW',
+          permission: ['VBEN_DOCUMENT_VIEW'],
         },
       },
       {
@@ -44,7 +44,7 @@ const routes: RouteRecordRaw[] = [
           icon: 'mdi:github',
           link: VBEN_GITHUB_URL,
           title: 'Github',
-          permission: 'VBEN_GITHUB_VIEW',
+          permission: ['VBEN_GITHUB_VIEW'],
         },
       },
       {
@@ -56,7 +56,7 @@ const routes: RouteRecordRaw[] = [
           icon: 'logos:naiveui',
           link: VBEN_NAIVE_PREVIEW_URL,
           title: $t('demos.vben.naive-ui'),
-          permission: 'VBEN_NAIVE_VIEW',
+          permission: ['VBEN_NAIVE_VIEW'],
         },
       },
       {
@@ -68,7 +68,7 @@ const routes: RouteRecordRaw[] = [
           icon: SvgTDesignIcon,
           link: VBEN_TD_PREVIEW_URL,
           title: $t('demos.vben.tdesign'),
-          permission: 'VBEN_TDESIGN_VIEW',
+          permission: ['VBEN_TDESIGN_VIEW'],
         },
       },
       {
@@ -80,7 +80,7 @@ const routes: RouteRecordRaw[] = [
           icon: 'logos:element',
           link: VBEN_ELE_PREVIEW_URL,
           title: $t('demos.vben.element-plus'),
-          permission: 'VBEN_ELEMENT_PLUS_VIEW',
+          permission: ['VBEN_ELEMENT_PLUS_VIEW'],
         },
       },
     ],
@@ -93,7 +93,7 @@ const routes: RouteRecordRaw[] = [
       icon: 'lucide:copyright',
       title: $t('demos.vben.about'),
       order: 9999,
-      permission: 'VBEN_ABOUT_VIEW',
+      permission: ['VBEN_ABOUT_VIEW'],
     },
   },
   {
@@ -104,7 +104,7 @@ const routes: RouteRecordRaw[] = [
       icon: 'lucide:user',
       hideInMenu: true,
       title: $t('page.auth.profile'),
-      permission: 'PROFILE_VIEW',
+      permission: ['PROFILE_VIEW'],
     },
   },
 ];

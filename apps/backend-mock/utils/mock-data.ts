@@ -61,8 +61,8 @@ const dashboardMenus = [
     meta: {
       order: -1,
       title: 'page.dashboard.title',
-      permission: 'contract-manage',
     },
+    menusCode: 'contract-manage',
     name: 'Dashboard',
     path: '/dashboard',
     redirect: '/analytics',
@@ -74,8 +74,8 @@ const dashboardMenus = [
         meta: {
           affixTab: true,
           title: 'page.dashboard.analytics',
-          permission: 'contract-m-rulelist',
         },
+        menusCode: 'contract-m-rulelist',
       },
       {
         name: 'Workspace',
@@ -83,8 +83,8 @@ const dashboardMenus = [
         component: '/dashboard/workspace/index',
         meta: {
           title: 'page.dashboard.workspace',
-          permission: 'contract-m-variableDatalist',
         },
+        menusCode: 'contract-m-variableDatalist',
       },
     ],
   },
@@ -98,8 +98,8 @@ const createFullDemosMenus = () => {
       meta: {
         icon: 'mdi:button-cursor',
         title: 'demos.access.adminVisible',
-        permission: 'demos-access-admin',
       },
+      menusCode: 'demos-access-admin',
       name: 'AccessAdminVisibleDemo',
       path: '/demos/access/admin-visible',
     },
@@ -108,8 +108,8 @@ const createFullDemosMenus = () => {
       meta: {
         icon: 'mdi:button-cursor',
         title: 'demos.access.superVisible',
-        permission: 'demos-access-super',
       },
+      menusCode: 'demos-access-super',
       name: 'AccessSuperVisibleDemo',
       path: '/demos/access/super-visible',
     },
@@ -118,8 +118,8 @@ const createFullDemosMenus = () => {
       meta: {
         icon: 'mdi:button-cursor',
         title: 'demos.access.userVisible',
-        permission: 'demos-access-user',
       },
+      menusCode: 'demos-access-user',
       name: 'AccessUserVisibleDemo',
       path: '/demos/access/user-visible',
     },
@@ -132,8 +132,8 @@ const createFullDemosMenus = () => {
         keepAlive: true,
         order: 1000,
         title: 'demos.title',
-        permission: 'demos-view',
       },
+      menusCode: 'demos-view',
       name: 'Demos',
       path: '/demos',
       redirect: '/demos/access',
@@ -144,8 +144,8 @@ const createFullDemosMenus = () => {
           meta: {
             icon: 'mdi:cloud-key-outline',
             title: 'demos.access.backendPermissions',
-            permission: 'demos-access-view',
           },
+          menusCode: 'demos-access-view',
           redirect: '/demos/access/page-control',
           structureMenusChildList: [
             {
@@ -155,8 +155,8 @@ const createFullDemosMenus = () => {
               meta: {
                 icon: 'mdi:page-previous-outline',
                 title: 'demos.access.pageAccess',
-                permission: 'demos-access-page-control',
               },
+              menusCode: 'demos-access-page-control',
             },
             {
               name: 'AccessButtonControlDemo',
@@ -165,8 +165,8 @@ const createFullDemosMenus = () => {
               meta: {
                 icon: 'mdi:button-cursor',
                 title: 'demos.access.buttonControl',
-                permission: 'demos-access-button-control',
               },
+              menusCode: 'demos-access-button-control',
             },
             {
               name: 'AccessMenuVisible403Demo',
@@ -177,8 +177,8 @@ const createFullDemosMenus = () => {
                 icon: 'mdi:button-cursor',
                 menuVisibleWithForbidden: true,
                 title: 'demos.access.menuVisible403',
-                permission: 'demos-access-menu-visible-403',
               },
+              menusCode: 'demos-access-menu-visible-403',
             },
             // 包含所有角色的菜单项
             roleWithMenus.admin,

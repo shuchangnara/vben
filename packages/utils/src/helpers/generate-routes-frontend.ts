@@ -41,8 +41,11 @@ function hasAuthority(route: RouteRecordRaw, access: string[]) {
     return true;
   }
 
-  // 只使用permission字段进行权限验证
-  const canAccess = access.includes(permission as string);
+  // 支持数组格式的权限验证（OR逻辑）
+  const canAccess = Array.isArray(permission)
+    ? permission.some((p) => access.includes(p as string)) // OR逻辑：拥有数组中任意一个权限即可访问
+    : access.includes(permission as string); // 单个权限字符串
+
   return canAccess || (!canAccess && menuHasVisibleWithForbidden(route));
 }
 

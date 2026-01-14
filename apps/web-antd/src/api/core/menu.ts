@@ -13,6 +13,8 @@ interface ActualMenuData {
   structureMenusChildList?: ActualMenuData[]; // 新的子菜单属性名
   redirect?: string;
   pid?: number;
+  menusCode?: string | string[]; // 外层的权限字段（替换permission），支持数组格式
+  permission?: string; // 兼容旧字段
   authCode?: string;
   status?: number;
   type?: string;
@@ -67,13 +69,16 @@ function convertActualMenuToRoute(
   menus: ActualMenuData[],
 ): RouteRecordStringComponent[] {
   return menus.map((menu) => {
+    // 优先使用外层的menusCode字段，如果不存在则使用meta.permission
+    const permission = menu.menusCode || menu.meta?.permission || menu.authCode;
+
     const route: any = {
       name: menu.name || `menu_${menu.id}`,
       path: menu.path,
       meta: {
         ...menu.meta,
         title: menu.meta?.title || menu.name,
-        permission: menu.authCode || menu.meta?.permission,
+        permission, // 使用处理后的权限字段（可以是字符串或数组）
       },
     };
 
