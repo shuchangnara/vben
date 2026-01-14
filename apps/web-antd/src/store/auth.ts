@@ -35,12 +35,16 @@ export const useAuthStore = defineStore('auth', () => {
       loginLoading.value = true;
       const loginResult = await loginApi(params);
 
-      // 如果成功获取到 accessToken
-      if (loginResult.accessToken) {
-        accessStore.setAccessToken(loginResult.accessToken);
+      // 如果成功获取到 zuulToken
+      if (loginResult.zuulToken) {
+        accessStore.setAccessToken(loginResult.zuulToken);
 
         // 从登录响应中获取用户信息（不包含密码）
-        const { accessToken: _, ...userInfoFromLogin } = loginResult;
+        const {
+          zuulToken: _,
+          globaluserId: __,
+          ...userInfoFromLogin
+        } = loginResult;
         userInfo = userInfoFromLogin as UserInfo;
 
         // 存储用户信息到 localStorage
