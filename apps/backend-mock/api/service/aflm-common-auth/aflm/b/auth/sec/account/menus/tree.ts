@@ -27,14 +27,12 @@ export default eventHandler(async (event) => {
     });
   }
 
-  // 返回简化菜单数据（移除meta字段，只保留必要字段）
+  // 返回简化菜单数据（移除meta和path字段，只保留必要字段）
   const simplifiedMenus = userMenus.menus.map((menu) => ({
     name: menu.name,
-    path: menu.path,
     menusCode: menu.menusCode,
     structureMenusChildList: menu.structureMenusChildList?.map((child) => ({
       name: child.name,
-      path: child.path,
       menusCode: child.menusCode,
       structureMenusChildList: child.structureMenusChildList,
     })),
