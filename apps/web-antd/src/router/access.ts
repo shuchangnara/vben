@@ -33,6 +33,14 @@ async function generateAccess(
       });
       const response = await getAllMenusApi();
 
+      // 调试：打印处理后的菜单数据
+      // console.log('=== 处理后的菜单数据 ===');
+      // console.log('菜单数量:', response.menus?.length);
+      // console.log('菜单结构:', JSON.stringify(response.menus, null, 2));
+      // console.log('权限数量:', response.permissions?.length);
+      // console.log('权限列表:', response.permissions);
+      // console.log('======================');
+
       // 保存用户权限代码到store
       if (response.permissions) {
         const { useAccessStore } = await import('@vben/stores');

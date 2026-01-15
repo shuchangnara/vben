@@ -9,18 +9,11 @@ export default eventHandler(async (event) => {
     return unAuthorizedResponse(event);
   }
 
-  // 获取请求参数（支持GET和POST）
-  let global: string | undefined;
-  let appId: string | undefined;
-
+  // 获取请求参数（支持GET和POST）- 参数已不再使用，仅用于兼容性
   if (event.method === 'GET') {
-    const query = getQuery(event);
-    global = query.global as string;
-    appId = query.appId as string;
+    getQuery(event);
   } else if (event.method === 'POST') {
-    const body = await readBody(event);
-    global = body.data?.globalUserId;
-    appId = body.data?.appId;
+    await readBody(event);
   }
 
   const userMenus = MOCK_MENUS.find(
@@ -34,11 +27,18 @@ export default eventHandler(async (event) => {
     });
   }
 
-  // 返回完整菜单数据和用户拥有的权限代码，同时返回接收到的参数
-  return useResponseSuccess({
-    menus: userMenus.menus,
-    permissions: userMenus.permissions || [],
-    global,
-    appId,
-  });
+  // 返回简化菜单数据（移除meta字段，只保留必要字段）
+  const simplifiedMenus = userMenus.menus.map((menu) => ({
+    name: menu.name,
+    path: menu.path,
+    menusCode: menu.menusCode,
+    structureMenusChildList: menu.structureMenusChildList?.map((child) => ({
+      name: child.name,
+      path: child.path,
+      menusCode: child.menusCode,
+      structureMenusChildList: child.structureMenusChildList,
+    })),
+  }));
+
+  return useResponseSuccess(simplifiedMenus);
 });
